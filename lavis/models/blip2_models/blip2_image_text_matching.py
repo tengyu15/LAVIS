@@ -37,7 +37,7 @@ class Blip2ITM(Blip2Qformer):
         embed_dim=256,
         max_txt_len=32,
     ):
-        logging.info('Init model : Blip2ITM')
+        logging.error('Init model : Blip2ITM')
         super().__init__(
             vit_model=vit_model,
             img_size=img_size,
@@ -52,10 +52,10 @@ class Blip2ITM(Blip2Qformer):
         )
 
     def forward(self, samples, match_head="itm"):
-        logging.info('Forward in model Blip2ITM: %s', match_head)
+        logging.error('Forward in model Blip2ITM: %s', match_head)
         image = samples["image"]
         caption = samples["text_input"]
-        logging.info('image.size: %s, caption.size: %s', list(image.size()), list(caption.size()))
+        logging.error('image.size: %s, caption.size: %s', list(image.size()), list(caption.size()))
 
         with self.maybe_autocast():
             image_embeds = self.ln_vision(self.visual_encoder(image))
@@ -63,7 +63,7 @@ class Blip2ITM(Blip2Qformer):
         image_atts = torch.ones(image_embeds.size()[:-1], dtype=torch.long).to(
             image.device
         )
-        logging.info('image_embeds.size: %s, image_atts.size: %s',
+        logging.error('image_embeds.size: %s, image_atts.size: %s',
                      list(image_embeds.size()), list(image_atts.size()))
 
         text = self.tokenizer(
@@ -72,7 +72,7 @@ class Blip2ITM(Blip2Qformer):
             max_length=self.max_txt_len,
             return_tensors="pt",
         ).to(image.device)
-        logging.info('text.input_ids.size: %s ', list(text.input_ids.size()))
+        logging.error('text.input_ids.size: %s ', list(text.input_ids.size()))
 
         if match_head == "itm":
             query_tokens = self.query_tokens.expand(image_embeds.shape[0], -1, -1)
@@ -80,7 +80,7 @@ class Blip2ITM(Blip2Qformer):
                 image.device
             )
             attention_mask = torch.cat([query_atts, text.attention_mask], dim=1)
-            logging.info('query_tokens.size: %s, query_atts.size: %s, attention_mask.size: %s',
+            logging.error('query_tokens.size: %s, query_atts.size: %s, attention_mask.size: %s',
                      list(query_tokens.size()), list(query_atts.size()), list(attention_mask.size()))
             output_itm = self.Qformer.bert(
                 text.input_ids,
@@ -91,11 +91,11 @@ class Blip2ITM(Blip2Qformer):
                 return_dict=True,
             )
             itm_embeddings = output_itm.last_hidden_state[:, : query_tokens.size(1), :]
-            logging.info('output_itm.last_hidden_state.size: %s, itm_embeddings.size: %s',
+            logging.error('output_itm.last_hidden_state.size: %s, itm_embeddings.size: %s',
                          list(output_itm.last_hidden_state.size()), list(itm_embeddings.size()))
             raw_itm_logit = self.itm_head(itm_embeddings)
             itm_logit = raw_itm_logit.mean(dim=1)
-            logging.info('raw_itm_logit.size: %s, itm_logit.size: %s',
+            logging.error('raw_itm_logit.size: %s, itm_logit.size: %s',
                          list(raw_itm_logit.size()), list(itm_logit.size()))
 
             return itm_logit
