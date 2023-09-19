@@ -56,10 +56,10 @@ class Blip2ITM(Blip2Qformer):
         logging.error('Forward in model Blip2ITM: %s', match_head)
         image = samples["image"]
         caption = samples["text_input"]
-        try:
-            logging.error('image.size: %s, caption.size: %s', str(list(image.cpu().size())), str(list(caption.cpu().shape)))
-        except:
-            traceback.print_exc()
+        # try:
+        #     logging.error('image.size: %s, caption.size: %s', str(list(image.cpu().size())), str(list(caption.cpu().shape)))
+        # except:
+        #     traceback.print_exc()
         # logging.error('image.size: %s, caption.size: %s', list(image.size()), list(caption.size()))
 
         with self.maybe_autocast():
@@ -68,6 +68,11 @@ class Blip2ITM(Blip2Qformer):
         image_atts = torch.ones(image_embeds.size()[:-1], dtype=torch.long).to(
             image.device
         )
+        try:
+            logging.error('image_embeds.size: %s, image_atts.size: %s',
+                    list(image_embeds.cpu().size()), list(image_atts.size()))
+        except:
+            traceback.print_exc()
         # logging.error('image_embeds.size: %s, image_atts.size: %s',
         #              list(image_embeds.size()), list(image_atts.size()))
 
