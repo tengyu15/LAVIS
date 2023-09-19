@@ -52,7 +52,7 @@ class Blip2ITM(Blip2Qformer):
         )
 
     def forward(self, samples, match_head="itm"):
-        logging.info('Forward in model Blip2ITM')
+        logging.info('Forward in model Blip2ITM: %s', match_head)
         image = samples["image"]
         caption = samples["text_input"]
         logging.info('image.size: %s, caption.size: %s', list(image.size()), list(caption.size()))
