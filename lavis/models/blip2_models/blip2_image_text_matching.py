@@ -94,7 +94,7 @@ class Blip2ITM(Blip2Qformer):
             logging.error('output_itm.last_hidden_state.size: %s, itm_embeddings.size: %s',
                          list(output_itm.last_hidden_state.size()), list(itm_embeddings.size()))
             raw_itm_logit = self.itm_head(itm_embeddings)
-            itm_logit = raw_itm_logit.max(dim=1)
+            itm_logit = raw_itm_logit.mean(dim=1)
             logging.error('raw_itm_logit.size: %s, itm_logit.size: %s',
                          list(raw_itm_logit.size()), list(itm_logit.size()))
 
