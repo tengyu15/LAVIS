@@ -7,7 +7,7 @@
 
 import logging
 import os
-
+from lavis.common.dist_utils import get_world_size
 import numpy as np
 import torch
 import torch.nn as nn
@@ -208,7 +208,7 @@ class GatherLayer(torch.autograd.Function):
     @staticmethod
     def forward(ctx, x):
         output = [
-            torch.zeros_like(x) for _ in range(torch.distributed.get_world_size())
+            torch.zeros_like(x) for _ in range(get_world_size())
         ]
         torch.distributed.all_gather(output, x)
         return tuple(output)
@@ -226,7 +226,7 @@ def all_gather_with_grad(tensors):
     Graph remains connected for backward grad computation.
     """
     # Queue the gathered tensors
-    world_size = torch.distributed.get_world_size()
+    world_size = get_world_size()
     # There is no need for reduction in the single-proc case
     if world_size == 1:
         return tensors
@@ -248,7 +248,7 @@ def concat_all_gather(tensor):
         return tensor
 
     tensors_gather = [
-        torch.ones_like(tensor) for _ in range(torch.distributed.get_world_size())
+        torch.ones_like(tensor) for _ in range(get_world_size())
     ]
     torch.distributed.all_gather(tensors_gather, tensor, async_op=False)
 

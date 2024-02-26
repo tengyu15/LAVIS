@@ -39,7 +39,20 @@ class COCORetrievalBuilder(BaseDatasetBuilder):
 
     DATASET_CONFIG_DICT = {"default": "configs/datasets/coco/defaults_ret.yaml"}
 
+@registry.register_builder("fashion_retrieval")
+class FashionRetrievalBuilder(BaseDatasetBuilder):
+    train_dataset_cls = RetrievalDataset
+    eval_dataset_cls = RetrievalEvalDataset
 
+    DATASET_CONFIG_DICT = {"default": "configs/datasets/fashion/defaults_ret.yaml"}
+
+@registry.register_builder("all_fashion_retrieval")
+class AllFashionRetrievalBuilder(BaseDatasetBuilder):
+    train_dataset_cls = RetrievalDataset
+    eval_dataset_cls = RetrievalEvalDataset
+
+    DATASET_CONFIG_DICT = {"default": "configs/datasets/all_fashion/defaults_ret.yaml"}
+    
 @registry.register_builder("flickr30k")
 class Flickr30kBuilder(BaseDatasetBuilder):
     train_dataset_cls = RetrievalDataset

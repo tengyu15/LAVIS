@@ -36,7 +36,7 @@ from lavis.models.blip2_models.blip2_opt import Blip2OPT
 from lavis.models.blip2_models.blip2_t5 import Blip2T5
 from lavis.models.blip2_models.blip2_qformer import Blip2Qformer
 from lavis.models.blip2_models.blip2_image_text_matching import Blip2ITM
-
+from lavis.models.blip2_models.blip2_bi_cls import Blip2BiCLS
 from lavis.models.blip2_models.blip2_t5_instruct import Blip2T5Instruct
 from lavis.models.blip2_models.blip2_vicuna_instruct import Blip2VicunaInstruct
 
@@ -78,6 +78,7 @@ __all__ = [
     "Blip2Qformer",
     "Blip2Base",
     "Blip2ITM",
+    "Blip2BiCLS",
     "Blip2OPT",
     "Blip2T5",
     "Blip2T5Instruct",

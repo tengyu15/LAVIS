@@ -33,9 +33,12 @@ from lavis.datasets.builders.vqa_builder import (
 from lavis.datasets.builders.retrieval_builder import (
     MSRVTTRetrievalBuilder,
     DiDeMoRetrievalBuilder,
+    FashionRetrievalBuilder,
+    AllFashionRetrievalBuilder,
     COCORetrievalBuilder,
     Flickr30kBuilder,
 )
+from lavis.datasets.builders.bi_cls_builder import FashionBiCLSBuilder
 from lavis.datasets.builders.dialogue_builder import AVSDDialBuilder
 from lavis.datasets.builders.text_to_image_generation_builder import BlipDiffusionFinetuneBuilder
 
@@ -49,6 +52,9 @@ __all__ = [
     "ConceptualCaption12MBuilder",
     "ConceptualCaption3MBuilder",
     "DiDeMoRetrievalBuilder",
+    "FashionRetrievalBuilder",
+    "FashionBiCLSBuilder",
+    "AllFashionRetrievalBuilder",
     "Flickr30kBuilder",
     "GQABuilder",
     "ImageNetBuilder",
